@@ -21,7 +21,7 @@ require_once './Api/SaveProductInterface.php';
 require_once './Model/SaveProduct.php';
 require_once './Model/Product.php';
 require_once './Model/ResourceModel/Product.php';
-require_once './Api/ExtractProductData.php';
+require_once './Api/ExtractProductDataInterface.php';
 require_once './Model/ExtractProductData.php';
 require_once './Api/ValidationResultInterface.php';
 require_once './Model/ValidationResult.php';
@@ -37,9 +37,7 @@ $pdo = new \PDO($db_config['dsn'] , $db_config['db_user'], $db_config['db_passwo
 $resource = new \Model\ResourceModel\Product($pdo);
 
 $productSave = new SaveProduct(
-    new ValidateProductData(
-        new ValidationResult()
-    ),
+    new ValidateProductData(),
     new ExtractProductData(),
     $resource
 );

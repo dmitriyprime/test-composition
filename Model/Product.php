@@ -25,21 +25,22 @@ class Product implements ProductInterface
     private float $price;
 
     /**
-     * @var array|null
+     * @var array
      */
-    private $extensionAttributes;
+    private array $extensionAttributes;
 
     /**
      * @param string $sku
      * @param string $name
      * @param float $price
-     * @param array|null $extensionAttributes
+     * @param array $extensionAttributes
      */
-    public function __construct(string $sku, string $name, float $price, array $extensionAttributes = null)
+    public function __construct(string $sku, string $name, float $price, array $extensionAttributes = [])
     {
         $this->sku = $sku;
         $this->name = $name;
         $this->price = $price;
+        $this->extensionAttributes = $extensionAttributes;
     }
 
     /**
@@ -69,8 +70,8 @@ class Product implements ProductInterface
     /**
      * @return array
      */
-    public function getExtensionAttribute(): array
+    public function getExtensionAttributes(): array
     {
-        return $this->extensionAttributes ?: [];
+        return $this->extensionAttributes;
     }
 }

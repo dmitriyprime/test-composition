@@ -11,51 +11,23 @@ use Api\ValidateProductDataInterface;
 class ValidateProductData implements ValidateProductDataInterface
 {
     /**
-     * @var ValidationResult
+     * @param array $data
+     * @return ValidationResult
      */
-    private $validationResult;
-
-    /**
-     * ValidateProductData constructor.
-     * @param ValidationResult $validationResult
-     */
-    public function __construct(ValidationResult $validationResult)
+    public function execute(array $data): ValidationResult
     {
-        $this->validationResult = $validationResult;
-    }
-
-    /**
-     * @param $sku
-     */
-    private function validateSku($sku)
-    {
-        if(mb_strlen($sku) < 3) {
-            $this->validationResult->invalidate();
-            $this->validationResult
-                ->setValidationResults('SKU field length  must be greater or equal than 3');
+        $errors = [];
+        $sku = $data['sku'] ?: '';
+        if (mb_strlen($sku) < 3) {
+            $errors[] = 'SKU field length  must be greater or equal than 3';
         }
-    }
 
-    /**
-     * @param $name
-     */
-    public function validateNameNotEmpty($name)
-    {
-        if(empty($name)) {
-            $this->validationResult->invalidate();
-            $this->validationResult
-                ->setValidationResults('Name field can not be empty');
+        $name = $data['name'] ?: '';
+
+        if (!$name) {
+            $errors[] = 'Name field can not be empty';
         }
-    }
 
-    /**
-     * @param $data
-     * @return bool
-     */
-    public function execute($data): ValidationResult
-    {
-        $this->validateSku($data[0]);
-        $this->validateNameNotEmpty($data[1]);
-        return $this->validationResult;
+        return new ValidationResult($errors);
     }
 }

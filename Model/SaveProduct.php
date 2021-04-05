@@ -4,22 +4,23 @@ namespace Model;
 
 use Api\Exception\CouldNotSaveEntityException;
 use Api\Exception\ValidationException;
+use Api\ExtractProductDataInterface;
 use Api\ProductInterface;
 use Api\SaveProductInterface;
+use Api\ValidateProductDataInterface;
 
 /**
- * Class SaveProduct
- * @package Model
+ * Save product model
  */
 class SaveProduct implements SaveProductInterface
 {
     /**
-     * @var ValidateProductData
+     * @var ValidateProductDataInterface
      */
     private $productValidator;
 
     /**
-     * @var ExtractProductData
+     * @var ExtractProductDataInterface
      */
     private $extractor;
 
@@ -29,28 +30,18 @@ class SaveProduct implements SaveProductInterface
     private ResourceModel\Product $productResource;
 
     /**
-     * @param $productValidator
-     * @param $extractor
+     * @param ValidateProductDataInterface $productValidator
+     * @param ExtractProductDataInterface $extractor
      * @param ResourceModel\Product $productResource
      */
     public function __construct(
-        \Api\ValidateProductDataInterface  $productValidator,
-        \Api\ExtractProductData $extractor,
+        ValidateProductDataInterface  $productValidator,
+        ExtractProductDataInterface $extractor,
         \Model\ResourceModel\Product $productResource
     ) {
         $this->productValidator = $productValidator;
         $this->extractor = $extractor;
         $this->productResource = $productResource;
-    }
-
-    /**
-     * Converts array into string
-     * @param array $array
-     * @return string
-     */
-    public function convertArrayToString(array $array): string
-    {
-        return implode('; ', $array);
     }
 
     /**
@@ -62,7 +53,7 @@ class SaveProduct implements SaveProductInterface
         $result = $this->productValidator->execute($productData);
 
         if (!$result->isValid()) {
-            $errors = $this->convertArrayToString($result->getValidationResults());
+            $errors = implode('; ', $result->getErrors());
             throw new ValidationException($errors);
         }
 

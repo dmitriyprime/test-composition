@@ -11,43 +11,31 @@ use Api\ValidationResultInterface;
 class ValidationResult implements ValidationResultInterface
 {
     /**
-     * @var bool
-     */
-    private bool $isValid = true;
-
-    /**
      * @var array
      */
-    private array $validationResults = [];
+    private array $errors;
+
+    /**
+     * @param array $errors
+     */
+    public function __construct(array $errors = [])
+    {
+        $this->errors = $errors;
+    }
 
     /**
      * @return bool
      */
     public function isValid(): bool
     {
-        return $this->isValid;
-    }
-
-    /**
-     * Invalidate result
-     */
-    public function invalidate() {
-        $this->isValid = false;
-    }
-
-    /**
-     * @param $validationResult
-     */
-    public function setValidationResults($validationResult)
-    {
-        $this->validationResults[] = $validationResult;
+        return empty($this->errors);
     }
 
     /**
      * @return array
      */
-    public function getValidationResults(): array
+    public function getErrors(): array
     {
-        return $this->validationResults;
+        return $this->errors;
     }
 }

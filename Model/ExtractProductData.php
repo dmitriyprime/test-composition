@@ -2,20 +2,23 @@
 
 namespace Model;
 
+use Api\ExtractProductDataInterface;
 use Api\ProductInterface;
 
 /**
- * Class ExtractProductData
- * @package Model
  */
-class ExtractProductData implements \Api\ExtractProductData
+class ExtractProductData implements ExtractProductDataInterface
 {
     /**
      * @inheritDoc
      */
     public function execute(ProductInterface $product): array
     {
-        $arrayFields = [$product->getSku(), $product->getName(), $product->getPrice()];
-        return $arrayFields;
+        return [
+            ProductInterface::SKU => $product->getSku(),
+            ProductInterface::NAME => $product->getName(),
+            ProductInterface::PRICE => $product->getPrice(),
+            ProductInterface::EXTENSION_ATTRIBUTES => $product->getExtensionAttributes(),
+        ];
     }
 }

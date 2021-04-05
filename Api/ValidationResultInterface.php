@@ -3,12 +3,19 @@
 namespace Api;
 
 /**
- * Interface ValidationResultInterface
- * @package Api
+ *
  */
 interface ValidationResultInterface
 {
+    /**
+     *
+     * @return bool
+     */
     public function isValid(): bool;
 
-    public function getValidationResults(): array;
+    /**
+     *
+     * @return array
+     */
+    public function getErrors(): array;
 }

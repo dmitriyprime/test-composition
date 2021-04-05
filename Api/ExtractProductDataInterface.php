@@ -5,7 +5,7 @@ namespace Api;
 /**
  * Extract product data interface
  */
-interface ExtractProductData
+interface ExtractProductDataInterface
 {
     /**
      * Convert product data into array.
